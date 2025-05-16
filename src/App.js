@@ -6,7 +6,7 @@ function App() {
   const [error, setError] = useState("");
   useEffect(() => {
     async function weatherGetter() {
-      if (city.length < 4) {
+      if (city.trim().length < 4) {
         return;
       }
       console.log(city.length);
