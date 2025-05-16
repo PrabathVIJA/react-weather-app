@@ -1,5 +1,64 @@
+import { useState, useEffect } from "react";
+const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
-  return <h2>Hello</h2>;
+  const [city, setCity] = useState("");
+  const [temperature, setTemperature] = useState(0);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    async function weatherGetter() {
+      if (city.length < 4) {
+        return;
+      }
+      console.log(city.length);
+      try {
+        const res = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`
+        );
+
+        if (!res.ok) {
+          throw new Error("City not found");
+        }
+        if (res.ok) {
+          setError("");
+        }
+
+        const data = await res.json();
+        setTemperature(data.weather[0].description);
+      } catch (e) {
+        setError(e.message);
+      }
+    }
+    weatherGetter();
+  }, [city]);
+
+  function temperatureHandler(e) {
+    setCity(e.target.value);
+  }
+
+  return (
+    <>
+      <div>
+        <div>
+          <label htmlFor="temp">First name:</label>
+          <br></br>
+          <input
+            type="text"
+            id="temp"
+            name="temp"
+            onChange={temperatureHandler}
+          />
+        </div>
+        {temperature && (
+          <div>
+            <p>
+              <strong>{temperature}</strong>
+            </p>
+          </div>
+        )}
+      </div>
+      {error && <p>{error}</p>}
+    </>
+  );
 }
 
 export default App;
