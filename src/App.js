@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
