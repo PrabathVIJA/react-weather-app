@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import ErrorMessage from "./components/ErrorMessage.jsx";
 import Temperature from "./components/TemperatureShow.jsx";
+import Label from "./components/Label.jsx";
+import TextInput from "./components/TextInput.jsx";
 const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
@@ -36,21 +38,23 @@ function App() {
     weatherGetter();
   }, [city]);
 
-  function temperatureHandler(e) {
-    setCity(e.target.value);
+  function handleCityChange(value) {
+    setCity(value);
   }
 
   return (
     <>
       <div>
         <div>
-          <label htmlFor="temp">Enter City:</label>
-          <br></br>
-          <input
+          <Label htmlFor="temp">Enter City:</Label>
+          <br />
+          <TextInput
             type="text"
             id="temp"
             name="temp"
-            onChange={temperatureHandler}
+            value={city}
+            placeholder="e.g., London"
+            onChange={handleCityChange}
           />
         </div>
         {temperature && <Temperature>{temperature}</Temperature>}
