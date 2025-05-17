@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Error from "./components/Error.jsx";
 const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
@@ -56,7 +57,7 @@ function App() {
           </div>
         )}
       </div>
-      {error && <p>{error}</p>}
+      {error && <Error>{error}</Error>}
     </>
   );
 }
