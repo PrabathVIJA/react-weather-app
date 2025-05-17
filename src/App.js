@@ -10,7 +10,7 @@ function App() {
       if (city.trim().length < 4) {
         return;
       }
-      console.log(city.length);
+
       try {
         const res = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`
