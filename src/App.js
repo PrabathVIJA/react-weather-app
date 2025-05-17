@@ -20,7 +20,9 @@ function App() {
           throw new Error("City not found");
         }
 
-        setError("");
+        if (res.ok) {
+          setError("");
+        }
 
         const data = await res.json();
         setTemperature(data.main.temp);
