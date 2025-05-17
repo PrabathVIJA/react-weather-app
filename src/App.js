@@ -23,7 +23,7 @@ function App() {
         }
 
         const data = await res.json();
-        setTemperature(data.weather[0].description);
+        setTemperature(data.main.temp);
       } catch (e) {
         setError(e.message);
       }
