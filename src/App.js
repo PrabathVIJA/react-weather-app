@@ -3,7 +3,7 @@ import Error from "./components/Error.jsx";
 const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
-  const [temperature, setTemperature] = useState(0);
+  const [temperature, setTemperature] = useState("");
   const [error, setError] = useState("");
   useEffect(() => {
     async function weatherGetter() {
@@ -17,6 +17,7 @@ function App() {
         );
 
         if (!res.ok) {
+          setTemperature("");
           throw new Error("City not found");
         }
 
@@ -25,6 +26,7 @@ function App() {
         }
 
         const data = await res.json();
+
         setTemperature(data.main.temp);
       } catch (e) {
         setError(e.message);
