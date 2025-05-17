@@ -19,12 +19,11 @@ function App() {
         if (!res.ok) {
           throw new Error("City not found");
         }
-        if (res.ok) {
-          setError("");
-        }
+
+        setError("");
 
         const data = await res.json();
-        setTemperature(data.weather[0].description);
+        setTemperature(data.main.temp);
       } catch (e) {
         setError(e.message);
       }
@@ -40,7 +39,7 @@ function App() {
     <>
       <div>
         <div>
-          <label htmlFor="temp">First name:</label>
+          <label htmlFor="temp">Enter City:</label>
           <br></br>
           <input
             type="text"

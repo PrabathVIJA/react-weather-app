@@ -1,7 +1,7 @@
-export default function Error({ child }) {
+export default function Error({ children }) {
   return (
     <>
-      <p>{child}</p>
+      <p>{children}</p>
     </>
   );
 }
