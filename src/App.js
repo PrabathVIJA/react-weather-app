@@ -3,16 +3,19 @@ import ErrorMessage from "./components/ErrorMessage.jsx";
 import Temperature from "./components/TemperatureShow.jsx";
 import Label from "./components/Label.jsx";
 import TextInput from "./components/TextInput.jsx";
+import Loader from "./components/Loader.jsx";
 const key = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
   const [temperature, setTemperature] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function weatherGetter() {
-      if (city.trim().length < 4) {
+      if (city.trim().length <= 4) {
         return;
       }
+      setLoading(true);
 
       try {
         const res = await fetch(
@@ -33,6 +36,8 @@ function App() {
         setTemperature(data.main.temp);
       } catch (e) {
         setError(e.message);
+      } finally {
+        setLoading(false);
       }
     }
     weatherGetter();
@@ -57,7 +62,10 @@ function App() {
             onChange={handleCityChange}
           />
         </div>
-        {temperature && <Temperature>{temperature}</Temperature>}
+        <div>
+          {loading && <Loader />}
+          {!loading && temperature && <Temperature>{temperature}</Temperature>}
+        </div>
       </div>
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </>
