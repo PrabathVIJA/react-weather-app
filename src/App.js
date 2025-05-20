@@ -4,22 +4,22 @@ import Temperature from "./components/TemperatureShow.jsx";
 import Label from "./components/Label.jsx";
 import TextInput from "./components/TextInput.jsx";
 import Loader from "./components/Loader.jsx";
-const key = `7a2f65506b6896e5eed6b97b70bb9655`;
+const API_KEY = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
   const [temperature, setTemperature] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function weatherGetter() {
-      if (city.trim().length <= 4) {
-        return;
-      }
+    if (city.trim().length <= 4) return;
+    // Get the weather
+    async function fetchWeather() {
       setLoading(true);
 
       try {
+        console.log("fetching weather now...");
         const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
         );
 
         if (!res.ok) {
@@ -40,7 +40,7 @@ function App() {
         setLoading(false);
       }
     }
-    weatherGetter();
+    fetchWeather();
   }, [city]);
 
   function handleCityChange(value) {
