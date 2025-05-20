@@ -1,63 +1,72 @@
 import { useState, useEffect } from "react";
-
-const key = `7a2f65506b6896e5eed6b97b70bb9655`;
+import ErrorMessage from "./components/ErrorMessage.jsx";
+import Temperature from "./components/TemperatureShow.jsx";
+import Label from "./components/Label.jsx";
+import TextInput from "./components/TextInput.jsx";
+import Loader from "./components/Loader.jsx";
+const API_KEY = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
-  const [temperature, setTemperature] = useState(0);
+  const [temperature, setTemperature] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    async function weatherGetter() {
-      if (city.trim().length < 4) {
-        return;
-      }
-      console.log(city.length);
+    if (city.trim().length <= 4) return;
+    // Get the weather
+    async function fetchWeather() {
+      setLoading(true);
+
       try {
+        console.log("fetching weather now...");
         const res = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
         );
 
         if (!res.ok) {
+          setTemperature("");
           throw new Error("City not found");
         }
+
         if (res.ok) {
           setError("");
         }
 
         const data = await res.json();
-        setTemperature(data.main.temp);
+        setTemperature(data.weather[0].description);
       } catch (e) {
         setError(e.message);
+      } finally {
+        setLoading(false);
       }
     }
-    weatherGetter();
+    fetchWeather();
   }, [city]);
 
-  function temperatureHandler(e) {
-    setCity(e.target.value);
+  function handleCityChange(value) {
+    setCity(value);
   }
 
   return (
     <>
       <div>
         <div>
-          <label htmlFor="temp">First name:</label>
-          <br></br>
-          <input
+          <Label htmlFor="temp">Enter City:</Label>
+          <br />
+          <TextInput
             type="text"
             id="temp"
             name="temp"
-            onChange={temperatureHandler}
+            value={city}
+            placeholder="e.g., London"
+            onChange={handleCityChange}
           />
         </div>
-        {temperature && (
-          <div>
-            <p>
-              <strong>{temperature}</strong>
-            </p>
-          </div>
-        )}
+        <div>
+          {loading && <Loader />}
+          {!loading && temperature && <Temperature>{temperature}</Temperature>}
+        </div>
       </div>
-      {error && <p>{error}</p>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </>
   );
 }
