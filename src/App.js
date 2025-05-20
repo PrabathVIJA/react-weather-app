@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import ErrorMessage from "./components/ErrorMessage.jsx";
-import Temperature from "./components/TemperatureShow.jsx";
-import Label from "./components/Label.jsx";
-import TextInput from "./components/TextInput.jsx";
-import Loader from "./components/Loader.jsx";
+import ErrorMessage from "./Components/ErrorMessage.jsx";
+import Temperature from "./Components/TemperatureShow.jsx";
+import Label from "./Components/Label.jsx";
+import TextInput from "./Components/TextInput.jsx";
+import Loader from "./Components/Loader.jsx";
 const API_KEY = `7a2f65506b6896e5eed6b97b70bb9655`;
 function App() {
   const [city, setCity] = useState("");
